@@ -9,8 +9,6 @@
 
   DocumentRoot <%= @params[:path] %>
 
-  RailsEnv <%= @params[:rails_env] %>
-
   <Directory <%= @params[:path] %>>
     Options FollowSymLinks
     AllowOverride All
@@ -46,21 +44,12 @@
 
   <% if @params[:domain] -%>
   SSLEngine on
-  SSLCertificateFile <%= "/etc/ssl/certs/#{@params[:domain]}/#{@params[:domain]}.com.crt" %>
+  SSLCertificateFile <%= "/etc/ssl/certs/#{@params[:domain]}/#{@params[:domain]}.crt" %>
   SSLCertificateChainFile <%= "/etc/ssl/certs/#{@params[:domain]}/sf_bundle.crt" %>
   SSLCertificateKeyFile <%= "/etc/ssl/certs/#{@params[:domain]}/#{@params[:domain]}.key" %>
   <% end -%>
 
   DocumentRoot <%= @params[:path] %>
-
-  RailsEnv <%= @params[:rails_env] %>
-
-  <% if @params[:passenger_ruby] -%>
-  PassengerRuby <%= @params[:passenger_ruby] %>
-  <% end %>
-
-  # NewRelic Request Queue Reporting.
-  RequestHeader set X-Request-Start "%t"
 
   <Directory <%= @params[:path] %>>
     Options FollowSymLinks

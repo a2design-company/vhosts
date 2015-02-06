@@ -18,8 +18,6 @@ vhosts.each do |vhost|
     server_aliases vhost['aliases']
     ssl (vhost['ssl'].nil? ? true : vhost['ssl'])
     domain vhost['domain']
-    rails_env vhost['environment']
-    passenger_ruby vhost['passenger_ruby']
     locations vhost['locations']
 
     if vhost['path']
@@ -33,7 +31,7 @@ vhosts.each do |vhost|
       directory "#{vhost['path']}" do
         owner "www-data"
         group "www-data"
-        mode 755
+        mode '0755'
         recursive true
       end
   end
