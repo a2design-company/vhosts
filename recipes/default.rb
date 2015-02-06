@@ -28,10 +28,19 @@ vhosts.each do |vhost|
       path "/var/www/#{vhost['name']}/current/public"
     end
 
-    #directory path do
-    #  owner "root"
-    #  mode "0755"
-    #  action :create
-    #end
+    if vhost['path']
+        directory vhost['path'] do
+          owner "www-data"
+          mode "0755"
+          action :create
+        end
+    else
+        directory "/var/www/#{vhost['name']}/current/public" do
+          owner "www-data"
+          mode "0755"
+          action :create
+        end
+    end
+
   end
 end
