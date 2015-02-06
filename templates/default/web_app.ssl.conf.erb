@@ -13,7 +13,7 @@
 
   <Directory <%= @params[:path] %>>
     Options FollowSymLinks
-    AllowOverride None
+    AllowOverride All
 
     <% if node['platform'] == 'ubuntu' && node['platform_version'].to_f >= 13.10 -%>
     Require all granted
@@ -28,40 +28,10 @@
     AllowOverride None
   </Directory>
 
-  ExpiresActive On
-  <Directory <%= "#{@params[:path]}/assets" %>>
-    Options MultiViews
-    ExpiresDefault "access plus 1 year"
-    Header set Access-Control-Allow-Origin "*"
-  </Directory>
-
-  <Location /balancer.html>
-    PassengerEnabled off
-  </Location>
-
   LogLevel info
-  ErrorLog <%= node['apache']['log_dir'] %>/<%= @params[:server_name] %>-error.log
-  CustomLog <%= node['apache']['log_dir'] %>/<%= @params[:server_name] %>-access.log combined
-  TransferLog <%= node['apache']['log_dir'] %>/<%= @params[:server_name] %>-transfer.log
-
-  AddOutputFilterByType DEFLATE text/html text/css application/x-javascript application/javascript
-
-  RewriteEngine On
-
-  ErrorDocument 503 /system/maintenance.html
-
-  RewriteCond %{REQUEST_URI} !.(ico|pdf|flv|jpg|jpeg|png|gif|js|css|swf)$
-  RewriteCond %{DOCUMENT_ROOT}/system/maintenance.html -f
-  RewriteCond %{REQUEST_URI} !^/balancer.html$
-  RewriteCond %{SCRIPT_FILENAME} !maintenance.html
-  RewriteRule ^.*$  -  [redirect=503,last]
-
-  <% if @params[:ssl] -%>
-  RewriteCond %{REQUEST_URI} !^/api/v4(.*)$
-  RewriteCond %{REQUEST_URI} !^/balancer.html$
-  RewriteCond %{HTTP:X-Forwarded-Proto} !https
-  RewriteRule (.*) https://%{HTTP_HOST}%{REQUEST_URI} [R,L]
-  <% end -%>
+  ErrorLog <%= node['apache']['log_dir'] %>/<%= @params[:server_name] %>/error.log
+  CustomLog <%= node['apache']['log_dir'] %>/<%= @params[:server_name] %>/access.log combined
+  TransferLog <%= node['apache']['log_dir'] %>/<%= @params[:server_name] %>/transfer.log
 </VirtualHost>
 
 <% if @params[:ssl] -%>
@@ -94,7 +64,7 @@
 
   <Directory <%= @params[:path] %>>
     Options FollowSymLinks
-    AllowOverride None
+    AllowOverride All
 
     <% if node['platform'] == 'ubuntu' && node['platform_version'].to_f >= 13.10 -%>
     Require all granted
@@ -109,28 +79,9 @@
     AllowOverride None
   </Directory>
 
-  ExpiresActive On
-  <Directory <%= "#{@params[:path]}/assets" %>>
-    Options MultiViews
-    ExpiresDefault "access plus 1 year"
-    Header set Access-Control-Allow-Origin "*"
-  </Directory>
-
   LogLevel info
-  ErrorLog <%= node['apache']['log_dir'] %>/<%= @params[:server_name] %>-error.log
-  CustomLog <%= node['apache']['log_dir'] %>/<%= @params[:server_name] %>-access.log combined
-  TransferLog <%= node['apache']['log_dir'] %>/<%= @params[:server_name] %>-transfer.log
-
-  AddOutputFilterByType DEFLATE text/html text/css application/x-javascript application/javascript
-
-  RewriteEngine On
-
-  ErrorDocument 503 /system/maintenance.html
-
-  RewriteCond %{REQUEST_URI} !.(ico|pdf|flv|jpg|jpeg|png|gif|js|css|swf)$
-  RewriteCond %{DOCUMENT_ROOT}/system/maintenance.html -f
-  RewriteCond %{REQUEST_URI} !^/balancer.html$
-  RewriteCond %{SCRIPT_FILENAME} !maintenance.html
-  RewriteRule ^.*$  -  [redirect=503,last]
+  ErrorLog <%= node['apache']['log_dir'] %>/<%= @params[:server_name] %>/error.log
+  CustomLog <%= node['apache']['log_dir'] %>/<%= @params[:server_name] %>/access.log combined
+  TransferLog <%= node['apache']['log_dir'] %>/<%= @params[:server_name] %>/transfer.log
 </VirtualHost>
 <% end -%>

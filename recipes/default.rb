@@ -27,5 +27,13 @@ vhosts.each do |vhost|
     else
       path "/var/www/#{vhost['name']}/current/public"
     end
+
+    unless File.exists?(path)
+        directory path do
+          owner "root"
+          mode "0755"
+          action :create
+        end
+    end
   end
 end
