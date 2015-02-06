@@ -28,11 +28,11 @@ vhosts.each do |vhost|
       path "/var/www/#{vhost['name']}/current/public"
     end
 
-#    directory path do
-#      owner "www-data"
-#      group "www-data"
-#      mode 755
-#      recursive true
-#    end
+    directory "#{path}" do
+      owner "www-data"
+      group "www-data"
+      mode 755
+      recursive true
+    end
   end
 end
