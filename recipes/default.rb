@@ -1,5 +1,5 @@
-raise 'No apache configuration found for node.' unless node['apache2']
-raise 'No vhosts configured for this node.' unless node['apache2']['vhosts']
+raise 'No apache configuration found for node.' unless node['apache']
+raise 'No vhosts configured for this node.' unless node['apache']['vhosts']
 
 include_recipe 'apache2'
 
