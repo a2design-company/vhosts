@@ -3,12 +3,12 @@ raise 'No vhosts configured for this node.' unless node['apache2']['vhosts']
 
 include_recipe 'apache2'
 
-if node['apache2']['vhosts'].is_a? Hash
-  vhosts = node['apache2']['vhosts'].collect do |title, vhost|
+if node['apache']['vhosts'].is_a? Hash
+  vhosts = node['apache']['vhosts'].collect do |title, vhost|
     vhost.merge title: title
   end
 else
-  vhosts = node['apache2']['vhosts']
+  vhosts = node['apache']['vhosts']
 end
 
 vhosts.each do |vhost|
@@ -16,7 +16,7 @@ vhosts.each do |vhost|
     template 'web_app.ssl.conf.erb'
     server_name vhost['name']
     server_aliases vhost['aliases']
-    ssl (vhost['ssl'].nil? ? true : vhost['ssl'])
+    ssl (vhost['ssl'].nil? ? false : vhost['ssl'])
     domain vhost['domain']
     locations vhost['locations']
 
@@ -27,12 +27,10 @@ vhosts.each do |vhost|
     end
   end
 
-  if vhost['path']
-      directory "#{vhost['path']}" do
-        owner "www-data"
-        group "www-data"
-        mode '0755'
-        recursive true
-      end
+  directory "#{path}" do
+    owner node['apache']['user']
+    group node['apache']['group']
+    mode '0755'
+    recursive true
   end
 end
