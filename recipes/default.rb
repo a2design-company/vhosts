@@ -12,6 +12,7 @@ else
 end
 
 vhosts.each do |vhost|
+  path = vhost['path'] || "/var/www/#{vhost['name']}/current/public"
   web_app vhost['name'] do
     template 'web_app.ssl.conf.erb'
     server_name vhost['name']
@@ -19,12 +20,7 @@ vhosts.each do |vhost|
     ssl (vhost['ssl'].nil? ? false : vhost['ssl'])
     domain vhost['domain']
     locations vhost['locations']
-
-    if vhost['path']
-      path vhost['path']
-    else
-      path "/var/www/#{vhost['name']}/current/public"
-    end
+    path path
   end
 
   directory "#{path}" do
