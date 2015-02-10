@@ -12,7 +12,7 @@ else
 end
 
 vhosts.each do |vhost|
-  path = vhost['path'] || "/var/www/#{vhost['name']}/current/public"
+  path = vhost['path'] || "/var/www/#{vhost['name']}"
   web_app vhost['name'] do
     template 'web_app.ssl.conf.erb'
     server_name vhost['name']
